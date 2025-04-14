@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var preferences: SharedPreferences
+    private lateinit var navController: NavController
     private val STORAGE_PERMISSION_CODE = 100
     private val PREFERENCE_NAME = "GestorArchivosPrefs"
     private val PREFERENCE_THEME = "theme_preference"
@@ -43,13 +46,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configurar NavController
-        val navController = findNavController(R.id.nav_host_fragment)
+        // Configurar NavController - CORREGIDO
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.nav_explore, R.id.nav_recent),
             binding.drawerLayout
         )
 
+        setSupportActionBar(binding.toolbar) // Agregar esta línea si no tienes un Toolbar configurado
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
@@ -91,7 +97,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
