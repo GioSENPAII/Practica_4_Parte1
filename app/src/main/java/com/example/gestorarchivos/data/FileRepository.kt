@@ -38,50 +38,7 @@ class FileRepository(private val context: Context) {
         recentFileDao.insert(recentFile)
     }
 
-    // Mover un archivo
-    suspend fun moveFile(sourceFile: File, targetDir: File): FileItem = withContext(Dispatchers.IO) {
-        val targetFile = File(targetDir, sourceFile.name)
-
-        // Si el destino ya existe, añadir un sufijo al nombre
-        var finalTargetFile = targetFile
-        var counter = 1
-
-        while (finalTargetFile.exists()) {
-            val fileName = sourceFile.nameWithoutExtension
-            val extension = if (sourceFile.extension.isNotEmpty()) ".${sourceFile.extension}" else ""
-            finalTargetFile = File(targetDir, "${fileName}_${counter}${extension}")
-            counter++
-        }
-
-        // Mover el archivo (primero copiar, luego eliminar el original)
-        val result = sourceFile.renameTo(finalTargetFile)
-
-        if (!result) {
-            // Si el rename directo falla, intentar copiar y eliminar
-            copyFile(sourceFile, targetDir)
-            deleteFile(sourceFile)
-        }
-
-        return@withContext FileItem(finalTargetFile)
-    }
-
-    // Obtener la ruta para breadcrumbs
-    fun getPathSegments(path: String): List<Pair<String, String>> {
-        val segments = mutableListOf<Pair<String, String>>()
-        val file = File(path)
-        var current = file
-
-        // Añadir el archivo/directorio actual
-        segments.add(Pair(current.absolutePath, current.name))
-
-        // Añadir todos los directorios padre
-        while (current.parent != null) {
-            current = current.parentFile!!
-            segments.add(0, Pair(current.absolutePath, current.name))
-        }
-
-        return segments
-    }arcar/desmarcar como favorito
+    // Marcar/desmarcar como favorito
     suspend fun toggleFavorite(path: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
         recentFileDao.updateFavorite(path, isFavorite)
     }
@@ -169,4 +126,48 @@ class FileRepository(private val context: Context) {
         return@withContext FileItem(targetFile)
     }
 
-// M
+    // Mover un archivo
+    suspend fun moveFile(sourceFile: File, targetDir: File): FileItem = withContext(Dispatchers.IO) {
+        val targetFile = File(targetDir, sourceFile.name)
+
+        // Si el destino ya existe, añadir un sufijo al nombre
+        var finalTargetFile = targetFile
+        var counter = 1
+
+        while (finalTargetFile.exists()) {
+            val fileName = sourceFile.nameWithoutExtension
+            val extension = if (sourceFile.extension.isNotEmpty()) ".${sourceFile.extension}" else ""
+            finalTargetFile = File(targetDir, "${fileName}_${counter}${extension}")
+            counter++
+        }
+
+        // Mover el archivo (primero copiar, luego eliminar el original)
+        val result = sourceFile.renameTo(finalTargetFile)
+
+        if (!result) {
+            // Si el rename directo falla, intentar copiar y eliminar
+            copyFile(sourceFile, targetDir)
+            deleteFile(sourceFile)
+        }
+
+        return@withContext FileItem(finalTargetFile)
+    }
+
+    // Obtener la ruta para breadcrumbs
+    fun getPathSegments(path: String): List<Pair<String, String>> {
+        val segments = mutableListOf<Pair<String, String>>()
+        val file = File(path)
+        var current = file
+
+        // Añadir el archivo/directorio actual
+        segments.add(Pair(current.absolutePath, current.name))
+
+        // Añadir todos los directorios padre
+        while (current.parent != null) {
+            current = current.parentFile!!
+            segments.add(0, Pair(current.absolutePath, current.name))
+        }
+
+        return segments
+    }
+}
