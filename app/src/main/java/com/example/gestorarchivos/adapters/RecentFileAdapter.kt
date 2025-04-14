@@ -38,7 +38,7 @@ class RecentFileAdapter(
 
         init {
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val path = getItem(position).path
                     onItemClick(path)
@@ -46,7 +46,7 @@ class RecentFileAdapter(
             }
 
             binding.btnFavorite.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     onFavoriteClick(item.path, !item.isFavorite)

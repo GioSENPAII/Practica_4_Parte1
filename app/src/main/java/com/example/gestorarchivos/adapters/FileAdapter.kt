@@ -28,7 +28,7 @@ class FileAdapter(
 
         init {
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     onItemClick(item)
@@ -36,7 +36,7 @@ class FileAdapter(
             }
 
             binding.root.setOnLongClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     return@setOnLongClickListener onItemLongClick(item)

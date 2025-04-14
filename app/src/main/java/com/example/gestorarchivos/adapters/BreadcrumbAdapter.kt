@@ -29,7 +29,7 @@ class BreadcrumbAdapter(private val onBreadcrumbClick: (String) -> Unit) :
 
         init {
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
+                val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val path = getItem(position).first
                     onBreadcrumbClick(path)

@@ -116,7 +116,7 @@ class FileExplorerFragment : Fragment() {
                 }
             },
             onItemLongClick = { fileItem ->
-                showContextMenu(it, fileItem)
+                showContextMenu(binding.root, fileItem)
                 true
             }
         )
