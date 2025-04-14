@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilos para la Toolbar -->
+    <style name="Theme.GestorArchivos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GestorArchivos.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores base -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FFCCCCCC</color>
+    <color name="dark_gray">#FF333333</color>
+
+    <!-- Tema Guinda (IPN) - Modo Claro -->
+    <color name="ipn_primary">#8B1E3F</color>
+    <color name="ipn_primary_variant">#6B1631</color>
+    <color name="ipn_secondary">#D4A373</color>
+    <color name="ipn_background">#FFFFFF</color>
+    <color name="ipn_surface">#F5F5F5</color>
+    <color name="ipn_on_primary">#FFFFFF</color>
+    <color name="ipn_on_secondary">#000000</color>
+    <color name="ipn_on_background">#000000</color>
+    <color name="ipn_on_surface">#000000</color>
+
+    <!-- Tema Guinda (IPN) - Modo Oscuro -->
+    <color name="ipn_primary_dark">#A12E4F</color>
+    <color name="ipn_primary_variant_dark">#7B2641</color>
+    <color name="ipn_secondary_dark">#E4B383</color>
+    <color name="ipn_background_dark">#121212</color>
+    <color name="ipn_surface_dark">#252525</color>
+    <color name="ipn_on_primary_dark">#FFFFFF</color>
+    <color name="ipn_on_secondary_dark">#000000</color>
+    <color name="ipn_on_background_dark">#FFFFFF</color>
+    <color name="ipn_on_surface_dark">#FFFFFF</color>
+
+    <!-- Tema Azul (ESCOM) - Modo Claro -->
+    <color name="escom_primary">#003A70</color>
+    <color name="escom_primary_variant">#002A50</color>
+    <color name="escom_secondary">#6DB4D9</color>
+    <color name="escom_background">#FFFFFF</color>
+    <color name="escom_surface">#F5F5F5</color>
+    <color name="escom_on_primary">#FFFFFF</color>
+    <color name="escom_on_secondary">#000000</color>
+    <color name="escom_on_background">#000000</color>
+    <color name="escom_on_surface">#000000</color>
+
+    <!-- Tema Azul (ESCOM) - Modo Oscuro -->
+    <color name="escom_primary_dark">#124A80</color>
+    <color name="escom_primary_variant_dark">#0E3A60</color>
+    <color name="escom_secondary_dark">#7DC4E9</color>
+    <color name="escom_background_dark">#121212</color>
+    <color name="escom_surface_dark">#252525</color>
+    <color name="escom_on_primary_dark">#FFFFFF</color>
+    <color name="escom_on_secondary_dark">#000000</color>
+    <color name="escom_on_background_dark">#FFFFFF</color>
+    <color name="escom_on_surface_dark">#FFFFFF</color>
+</resources>

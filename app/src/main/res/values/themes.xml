@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema Base -->
+    <style name="Theme.GestorArchivos" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/ipn_primary</item>
+        <item name="colorPrimaryVariant">@color/ipn_primary_variant</item>
+        <item name="colorOnPrimary">@color/ipn_on_primary</item>
+        <item name="colorSecondary">@color/ipn_secondary</item>
+        <item name="colorOnSecondary">@color/ipn_on_secondary</item>
+        <item name="android:colorBackground">@color/ipn_background</item>
+        <item name="colorOnBackground">@color/ipn_on_background</item>
+        <item name="colorSurface">@color/ipn_surface</item>
+        <item name="colorOnSurface">@color/ipn_on_surface</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <!-- Tema Guinda (IPN) - Modo Claro -->
+    <style name="Theme.GestorArchivos.IPN" parent="Theme.GestorArchivos">
+        <item name="colorPrimary">@color/ipn_primary</item>
+        <item name="colorPrimaryVariant">@color/ipn_primary_variant</item>
+        <item name="colorOnPrimary">@color/ipn_on_primary</item>
+        <item name="colorSecondary">@color/ipn_secondary</item>
+        <item name="colorOnSecondary">@color/ipn_on_secondary</item>
+        <item name="android:colorBackground">@color/ipn_background</item>
+        <item name="colorOnBackground">@color/ipn_on_background</item>
+        <item name="colorSurface">@color/ipn_surface</item>
+        <item name="colorOnSurface">@color/ipn_on_surface</item>
+    </style>
+
+    <!-- Tema Azul (ESCOM) - Modo Claro -->
+    <style name="Theme.GestorArchivos.ESCOM" parent="Theme.GestorArchivos">
+        <item name="colorPrimary">@color/escom_primary</item>
+        <item name="colorPrimaryVariant">@color/escom_primary_variant</item>
+        <item name="colorOnPrimary">@color/escom_on_primary</item>
+        <item name="colorSecondary">@color/escom_secondary</item>
+        <item name="colorOnSecondary">@color/escom_on_secondary</item>
+        <item name="android:colorBackground">@color/escom_background</item>
+        <item name="colorOnBackground">@color/escom_on_background</item>
+        <item name="colorSurface">@color/escom_surface</item>
+        <item name="colorOnSurface">@color/escom_on_surface</item>
+    </style>
+</resources>
