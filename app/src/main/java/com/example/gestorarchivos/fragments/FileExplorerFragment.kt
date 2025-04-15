@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import android.net.Uri
@@ -250,11 +249,11 @@ class FileExplorerFragment : Fragment() {
                     true
                 }
                 R.id.action_copy -> {
-                    showDirectoryPicker(fileItem, isMove = false)
+                    showDirectoryPickerDialog(fileItem, false)
                     true
                 }
                 R.id.action_move -> {
-                    showDirectoryPicker(fileItem, isMove = true)
+                    showDirectoryPickerDialog(fileItem, true)
                     true
                 }
                 R.id.action_delete -> {
@@ -294,7 +293,8 @@ class FileExplorerFragment : Fragment() {
         }
     }
 
-    private fun showDirectoryPicker(fileItem: FileItem, isMove: Boolean) {
+    // Método unificado para mostrar el selector de directorios
+    private fun showDirectoryPickerDialog(fileItem: FileItem, isMove: Boolean) {
         // Obtenemos directorios del directorio actual
         val currentDir = viewModel.currentDirectory.value
         val files = currentDir?.listFiles() ?: emptyArray()
@@ -349,17 +349,6 @@ class FileExplorerFragment : Fragment() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
-    }
-
-    private fun showDirectoryPicker(fileItem: FileItem, isMove: Boolean) {
-        // Implementar selector de directorio
-        // Esto requeriría otra pantalla o diálogo que muestre solo directorios
-        // Por ahora, como una implementación simple, podríamos mostrar un Snackbar
-        Snackbar.make(
-            binding.root,
-            "Funcionalidad de ${if (isMove) "mover" else "copiar"} en desarrollo",
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 
     private fun showDeleteDialog(fileItem: FileItem) {
