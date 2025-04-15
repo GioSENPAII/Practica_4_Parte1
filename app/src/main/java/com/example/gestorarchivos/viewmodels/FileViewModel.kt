@@ -10,6 +10,8 @@ import com.example.gestorarchivos.data.FileRepository
 import com.example.gestorarchivos.data.RecentFile
 import kotlinx.coroutines.launch
 import java.io.File
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
 
 class FileViewModel(application: Application) : AndroidViewModel(application) {
 
