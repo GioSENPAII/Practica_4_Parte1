@@ -192,8 +192,72 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
         return repository.readTextFile(file)
     }
 
+    // Añade esta propiedad para los resultados de búsqueda
+    private val _searchResults = MutableLiveData<List<FileItem>>()
+    val searchResults: LiveData<List<FileItem>> = _searchResults
+
+    // Añade este método para buscar archivos
+    fun searchFiles(query: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val results = mutableListOf<FileItem>()
+                searchFilesInDirectory(currentDirectory.value ?: repository.getInternalStorageDirectory(), query, results)
+                _searchResults.value = results
+            } catch (e: Exception) {
+                _error.value = "Error al buscar archivos: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private suspend fun searchFilesInDirectory(directory: File, query: String, results: MutableList<FileItem>) {
+        withContext(Dispatchers.IO) {
+            directory.listFiles()?.forEach { file ->
+                if (file.name.lowercase().contains(query.lowercase())) {
+                    results.add(FileItem(file))
+                }
+                if (file.isDirectory) {
+                    searchFilesInDirectory(file, query, results)
+                }
+            }
+        }
+    }
+
     // Limpiar mensaje de error
     fun clearError() {
         _error.value = null
+    }
+
+    fun refreshCurrentDirectory() {
+        currentDirectory.value?.let {
+            navigateToDirectory(it)
+        }
+    }
+
+    // Enum para los tipos de ordenamiento
+    enum class SortType {
+        NAME, DATE, SIZE, TYPE
+    }
+
+    // Orden actual
+    private var currentSortType = SortType.NAME
+
+    // Método para ordenar archivos
+    fun sortFiles(sortType: SortType) {
+        currentSortType = sortType
+        viewModelScope.launch {
+            val currentFiles = _files.value ?: return@launch
+
+            val sortedFiles = when (sortType) {
+                SortType.NAME -> currentFiles.sortedWith(compareBy({ !it.isDirectory }, { it.name.lowercase() }))
+                SortType.DATE -> currentFiles.sortedWith(compareBy({ !it.isDirectory }, { -it.lastModified }))
+                SortType.SIZE -> currentFiles.sortedWith(compareBy({ !it.isDirectory }, { it.size }))
+                SortType.TYPE -> currentFiles.sortedWith(compareBy({ !it.isDirectory }, { it.extension }))
+            }
+
+            _files.value = sortedFiles
+        }
     }
 }

@@ -50,6 +50,17 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Configurar Drawer
+        val toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.menu_open_drawer,  // Deberás agregar esta string
+            R.string.menu_close_drawer  // Deberás agregar esta string
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.nav_explore, R.id.nav_recent),
             binding.drawerLayout
@@ -68,16 +79,27 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_internal -> {
+                    // Navegar al fragmento explorador y cambiar a almacenamiento interno
                     navController.navigate(R.id.nav_explore)
-                    // El ViewModel se encarga del almacenamiento interno
+                    val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                    val fragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
+                    if (fragment is FileExplorerFragment) {
+                        fragment.switchToInternalStorage()
+                    }
                     binding.drawerLayout.closeDrawers()
                     true
                 }
                 R.id.nav_external -> {
                     if (checkPermissions()) {
+                        // Navegar al fragmento explorador y cambiar a almacenamiento externo
                         navController.navigate(R.id.nav_explore)
-                        // Aquí cambiaríamos al almacenamiento externo
-                        // Esto lo implementaremos en FileExplorerFragment
+                        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                        val fragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
+                        if (fragment is FileExplorerFragment) {
+                            fragment.switchToExternalStorage()
+                        }
+                    } else {
+                        requestPermissions()
                     }
                     binding.drawerLayout.closeDrawers()
                     true

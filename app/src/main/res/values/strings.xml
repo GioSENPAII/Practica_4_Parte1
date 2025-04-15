@@ -80,4 +80,6 @@
     <string name="file_icon">Icono de archivo</string>
     <string name="favorite">Favorito</string>
     <string name="add_file">Agregar archivo</string>
+    <string name="menu_open_drawer">Abrir menú</string>
+    <string name="menu_close_drawer">Cerrar menú</string>
 </resources>

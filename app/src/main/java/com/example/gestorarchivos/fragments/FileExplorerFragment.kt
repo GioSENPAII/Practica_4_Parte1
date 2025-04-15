@@ -63,28 +63,58 @@ class FileExplorerFragment : Fragment() {
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.file_explorer_menu, menu)
+
+                // Configurar búsqueda
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem?.actionView as? SearchView
+
+                searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        if (!query.isNullOrBlank()) {
+                            viewModel.searchFiles(query)
+                        }
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        // No buscamos con cada cambio para no sobrecargar
+                        return false
+                    }
+                })
+
+                searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                        return true
+                    }
+
+                    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                        // Al cerrar la búsqueda, volvemos a mostrar los archivos normales
+                        viewModel.refreshCurrentDirectory()
+                        return true
+                    }
+                })
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_search -> {
-                        // Implementar búsqueda
+                        // Ya está manejado por el SearchView
                         true
                     }
                     R.id.sort_name -> {
-                        // Implementar ordenamiento por nombre
+                        viewModel.sortFiles(FileViewModel.SortType.NAME)
                         true
                     }
                     R.id.sort_date -> {
-                        // Implementar ordenamiento por fecha
+                        viewModel.sortFiles(FileViewModel.SortType.DATE)
                         true
                     }
                     R.id.sort_size -> {
-                        // Implementar ordenamiento por tamaño
+                        viewModel.sortFiles(FileViewModel.SortType.SIZE)
                         true
                     }
                     R.id.sort_type -> {
-                        // Implementar ordenamiento por tipo
+                        viewModel.sortFiles(FileViewModel.SortType.TYPE)
                         true
                     }
                     R.id.view_list -> {
@@ -244,7 +274,58 @@ class FileExplorerFragment : Fragment() {
     }
 
     private fun shareFile(fileItem: FileItem) {
-        // Implementar compartir archivo
+        try {
+            val uri = Uri.fromFile(fileItem.file)
+            val intent = Intent(Intent.ACTION_SEND)
+            val mimeType = getMimeType(fileItem.name)
+            intent.setType(mimeType)
+            intent.putExtra(Intent.EXTRA_STREAM, uri)
+            startActivity(Intent.createChooser(intent, "Compartir archivo"))
+        } catch (e: Exception) {
+            Snackbar.make(
+                binding.root,
+                "No se puede compartir este archivo: ${e.message}",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun showDirectoryPicker(fileItem: FileItem, isMove: Boolean) {
+        // Obtenemos directorios del directorio actual
+        val currentDir = viewModel.currentDirectory.value
+        val files = currentDir?.listFiles() ?: emptyArray()
+        val directories = files.filter { it.isDirectory }
+            .map { it.name }
+            .toTypedArray()
+
+        if (directories.isEmpty()) {
+            Snackbar.make(
+                binding.root,
+                "No hay directorios disponibles en esta ubicación",
+                Snackbar.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Selecciona un directorio")
+            .setItems(directories) { _, which ->
+                val targetDir = File(currentDir, directories[which])
+                if (isMove) {
+                    viewModel.moveFile(fileItem, targetDir)
+                    Snackbar.make(binding.root, "Archivo movido con éxito", Snackbar.LENGTH_SHORT).show()
+                } else {
+                    viewModel.copyFile(fileItem, targetDir)
+                    Snackbar.make(binding.root, "Archivo copiado con éxito", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun getMimeType(fileName: String): String {
+        val extension = fileName.substringAfterLast('.', "")
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension) ?: "*/*"
     }
 
     private fun showRenameDialog(fileItem: FileItem) {
@@ -350,5 +431,21 @@ class FileExplorerFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun switchToInternalStorage() {
+        val internalDir = viewModel.getInternalStorageDirectory()
+        viewModel.navigateToDirectory(internalDir)
+        Snackbar.make(binding.root, "Cambiado a almacenamiento interno", Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun switchToExternalStorage() {
+        val externalDir = viewModel.getExternalStorageDirectory()
+        if (externalDir != null) {
+            viewModel.navigateToDirectory(externalDir)
+            Snackbar.make(binding.root, "Cambiado a almacenamiento externo", Snackbar.LENGTH_SHORT).show()
+        } else {
+            Snackbar.make(binding.root, "Almacenamiento externo no disponible", Snackbar.LENGTH_SHORT).show()
+        }
     }
 }
