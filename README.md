@@ -158,12 +158,47 @@ Si encuentras algún problema, por favor reporta los detalles incluyendo:
 4. Sube tus cambios (`git push origin nueva-funcionalidad`)
 5. Crea un Pull Request
 
-## Licencia
-Este proyecto está disponible bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
-
 ## Equipo de desarrollo
 - Desarrollado por estudiantes del IPN-ESCOM
 - Contacto: [glongoria.3a.is@gmail.com]
+
+## Capturas de Pantalla  
+- **Permisos solicitados por la aplicación**
+![Imagen 1](assets/1.jpeg)
+
+- **Pantalla principal de la aplicación**
+![Imagen 2](assets/2.jpeg)
+
+- **Barra de busqueda**
+![Imagen 3](assets/3.jpeg)
+
+- **Filtros de la aplicación**
+![Imagen 4](assets/4.jpeg)
+
+- **Menu lateral de la aplicación**
+![Imagen 5](assets/5.jpeg)
+
+- **Temas de la aplicación**
+![Imagen 6](assets/6.jpeg)
+![Imagen 7](assets/7.jpeg)
+![Imagen 8](assets/8.jpeg)
+
+- **Creación de carpetas y archivos**
+![Imagen 9](assets/9.jpeg)
+![Imagen 10](assets/10.jpeg)
+![Imagen 11](assets/11.jpeg)
+
+- **Pestaña de archivos recientes y favoritos**
+![Imagen 12](assets/12.jpeg)
+![Imagen 13](assets/13.jpeg)
+  
+- **Limpieza de historial**
+![Imagen 14](assets/14.jpeg)
+
+- **Vistas de archivos**
+![Imagen 15](assets/15.jpeg)
+![Imagen 16](assets/16.jpeg)
+
 
 ## Agradecimientos
 - A la comunidad Android por sus recursos y bibliotecas
